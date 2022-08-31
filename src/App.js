@@ -4,18 +4,40 @@ import Alert from "./Alert";
 
 function App() {
   const [alert, setAlert] = useState("");
-  // const [isAlert, setIsAlert] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [item, setItem] = useState("");
   const [list, setList] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(alert);
+    if (editMode) {
+    //   if(item) 
+    // }
     if (item) {
       setList([item, ...list]);
       setItem("");
-      setAlert("success");
+      setAlert("added");
     }
+  };
+
+  const handleClear = () => {
+    setList([]);
+    setAlert("cleared");
+  };
+
+  const handleDelete = (index) => {
+    let filtered = [...list];
+    filtered.splice(index, 1);
+    setList(filtered);
+    setAlert("removed");
+  };
+
+  const handleEdit = (index) => {
+    const item = list[index];
+    console.log("item to edit ", item);
+    setEditMode(true);
+    setItem(item);
   };
 
   return (
@@ -32,10 +54,15 @@ function App() {
             onFocus={() => setAlert("")}
           />
           <button className="btn submit-btn">submit</button>
+          <button className="btn submit-btn">edit</button>
         </div>
       </form>
-      <List items={list} />
-      {list.length > 0 && <button className="clear-btn">clear items</button>}
+      <List items={list} onDelete={handleDelete} onEdit={handleEdit} />
+      {list.length > 0 && (
+        <button className="clear-btn" onClick={handleClear}>
+          clear items
+        </button>
+      )}
     </section>
   );
 }
