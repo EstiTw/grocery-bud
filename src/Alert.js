@@ -1,34 +1,12 @@
 import React, { useEffect } from "react";
 
-const Alert = ({ alertType }) => {
-  let classes = "alert ";
-  let alertText;
+const Alert = ({ msg, type, removeAlert }) => {
+  useEffect(() => {
+    const timeout = setTimeout(() => removeAlert(), 3000);
+    return () => clearTimeout(timeout);
+  }, []);
 
-  classes +=
-    alertType === "added" || alertType === "edited" || alertType === "changed"
-      ? "alert-success"
-      : "alert-danger";
-
-  switch (alertType) {
-    case "cleared":
-      alertText = "empty list";
-      break;
-    case "added":
-      alertText = "item added to the list";
-      break;
-    case "edited":
-      alertText = "value changed";
-      break;
-    case "removed":
-      alertText = "item removed";
-      break;
-    case "noValue":
-      alertText = "plaese enter value";
-      break;
-    case "changed":
-      alertText = "value changed";
-  }
-  return <p className={classes}>{alertText}</p>;
+  return <p className={`alert alert-${type}`}>{msg}</p>;
 };
 
 export default Alert;

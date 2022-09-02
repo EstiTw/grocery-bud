@@ -3,19 +3,22 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 const List = ({ items, onDelete, onEdit }) => {
   return (
     <section className="grocery-container">
-      {items.map((item, index) => (
-        <section key={index} className="grocery-item">
-          <p className="title">{item}</p>
-          <div>
-            <button className="edit-btn" onClick={() => onEdit(index)}>
-              <FaEdit />
-            </button>
-            <button className="delete-btn" onClick={() => onDelete(index)}>
-              <FaTrash />
-            </button>
-          </div>
-        </section>
-      ))}
+      {items.map((item) => {
+        const { id, title } = item;
+        return (
+          <article key={id} className="grocery-item">
+            <p className="title">{title}</p>
+            <div>
+              <button className="edit-btn" onClick={() => onEdit(id)}>
+                <FaEdit />
+              </button>
+              <button className="delete-btn" onClick={() => onDelete(id)}>
+                <FaTrash />
+              </button>
+            </div>
+          </article>
+        );
+      })}
     </section>
   );
 };
