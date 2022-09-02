@@ -5,7 +5,7 @@ const Alert = ({ alertType }) => {
   let alertText;
 
   classes +=
-    alertType === "added" || alertType === "edited"
+    alertType === "added" || alertType === "edited" || alertType === "changed"
       ? "alert-success"
       : "alert-danger";
 
@@ -21,6 +21,12 @@ const Alert = ({ alertType }) => {
       break;
     case "removed":
       alertText = "item removed";
+      break;
+    case "noValue":
+      alertText = "plaese enter value";
+      break;
+    case "changed":
+      alertText = "value changed";
   }
   return <p className={classes}>{alertText}</p>;
 };

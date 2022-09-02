@@ -4,20 +4,27 @@ import Alert from "./Alert";
 
 function App() {
   const [alert, setAlert] = useState("");
-  const [editMode, setEditMode] = useState(false);
+  const [editItem, seteditItem] = useState(-1);
   const [item, setItem] = useState("");
   const [list, setList] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(alert);
-    if (editMode) {
-    //   if(item) 
-    // }
     if (item) {
-      setList([item, ...list]);
+      let newList;
+      if (editItem !== -1) {
+        newList = [...list];
+        newList[editItem] = item;
+        seteditItem(-1);
+        setAlert("changed");
+      } else {
+        newList = [item, ...list];
+        setAlert("added");
+      }
+      setList(newList);
       setItem("");
-      setAlert("added");
+    } else {
+      setAlert("noValue");
     }
   };
 
@@ -35,9 +42,8 @@ function App() {
 
   const handleEdit = (index) => {
     const item = list[index];
-    console.log("item to edit ", item);
-    setEditMode(true);
     setItem(item);
+    seteditItem(index);
   };
 
   return (
@@ -53,8 +59,9 @@ function App() {
             onChange={(e) => setItem(e.target.value)}
             onFocus={() => setAlert("")}
           />
-          <button className="btn submit-btn">submit</button>
-          <button className="btn submit-btn">edit</button>
+          <button className="btn submit-btn">
+            {editItem == -1 ? "submit" : "edit"}
+          </button>
         </div>
       </form>
       <List items={list} onDelete={handleDelete} onEdit={handleEdit} />
